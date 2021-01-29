@@ -26,20 +26,56 @@ import numpy as np
 # filename = '../stoke/embedder_eval/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_32.log'
 # filename = '../stoke/embedder_eval/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_8.log'
 
+# filenames = [
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_5.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_5.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_5.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_5.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_32.log',
+# ]
+
 filenames = [
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_16.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_32.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_8.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_16.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_32.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_8.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_16.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_32.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_8.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_16.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_32.log',
-    '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_8.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_5.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_16.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_32.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.3_inum_5.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.3_inum_16.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.3_inum_32.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_1_inum_5.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_1_inum_16.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_1_inum_32.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_10_inum_5.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_10_inum_16.log',
+    '../stoke/embedder_eval/param_sweep/results/unary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_10_inum_32.log',
 ]
+
+# filenames = [
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_affine_gsm_0_rm_0_cost_correctness_beta_0.1_inum_8.log',
+# ]
+
+# filenames = [
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.1_inum_8.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_0.3_inum_8.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_10_inum_8.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_16.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_32.log',
+#     '../stoke/embedder_eval/param_sweep/results/binary_affine/dist_hamming_gsm_0_rm_0_cost_correctness_beta_1_inum_8.log',
+# ]
 
 # filename = 'montmul_synth.log'
 # filename = 'montmul_opt.log'
@@ -76,7 +112,7 @@ def gen_graph(filename):
         y = np.array(list(map(operator.itemgetter(1), search)), dtype=np.float64)
         ax.plot(x, y)
 
-    raw_name = os.path.basename(filename).split('.')[0]
+    raw_name = os.path.splitext(os.path.basename(filename))[0]
     outname = f'{raw_name}.png'
     title = ' '.join(raw_name.split('_')).title()
     ax.set(title=title)
@@ -85,7 +121,7 @@ def gen_graph(filename):
     y_max = max(map(lambda s: max(map(operator.itemgetter(1), s)), searches))
 
     # print(max(map(lambda s: max(map(operator.itemgetter(0), s)), searches)))
-    ax.set_xlim([0, 29655.0])
+    # ax.set_xlim([0, 29655.0])
 
     if LOG_SCALE:
         plt.yscale('log')
@@ -97,7 +133,7 @@ def gen_graph(filename):
 
     fig.savefig(outname, dpi=250)
 
-    plt.show()
+    # plt.show()
 
 
 for filename in filenames:
