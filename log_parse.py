@@ -6,6 +6,7 @@ def get_search_data(filename):
 
     searches = []
     curr_search = []
+    total_candidates = None
     for i, line in enumerate(lines):
         if line.startswith('Doobs'):
             update_time = float(line.split(' ')[-1][:-3]) / 1000.0
@@ -20,6 +21,8 @@ def get_search_data(filename):
         elif line.startswith('Total search time'):
             total_search_time = float(line.split(':')[1].strip()[:-1])
 
+    if not total_candidates:
+        import pdb; pdb.set_trace()
     if curr_search:
         searches.append(curr_search)
     return {'updates': searches, 'total_cands': total_candidates, 'total_search_time': total_search_time}

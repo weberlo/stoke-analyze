@@ -36,26 +36,39 @@ def flatten(l):
 
 PARAMS = {
     'dist': ['hamming', 'affine'],
-    'beta': [0.1, 0.3],
-    'inum': [5, 8, 16],
+    # 'beta': [0.1, 0.3],
+    # 'inum': [5, 8, 16],
+    'beta': [0.005, 0.01, 0.1, 0.3],
+    'inum': [6],
 }
 
+# data_base_dir = 'archive/tc_restrict_content/2-8-21'
+data_base_dir = '../stoke/embedder_eval/param_sweep/results'
 benchmark = 'binary_affine'
 
-# print('(beta; inum),Avg Hamming Search Time (s),Hamming Std Dev,Avg Affine Search Time (s),Affine Std Dev')
-print('(beta; inum),Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev,Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev')
+print('(beta; inum),Avg Hamming Search Time (s),Hamming Std Dev,Avg Affine Search Time (s),Affine Std Dev')
+# print('(beta; inum),Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev,Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev')
 for (beta, inum) in itertools.product(PARAMS['beta'], PARAMS['inum']):
-    hamming_logs = glob.glob(f'archive/tc_restrict_num/2-4-21/{benchmark}/*/dist_hamming*beta_{beta}*inum_{inum}*')
-    affine_logs = glob.glob(f'archive/tc_restrict_num/2-4-21/{benchmark}/*/dist_affine*beta_{beta}*inum_{inum}*')
+    hamming_logs = glob.glob(f'{data_base_dir}/{benchmark}/*/dist_hamming*beta_{beta}*inum_{inum}*')
+    affine_logs = glob.glob(f'{data_base_dir}/{benchmark}/*/dist_affine_gsm*beta_{beta}*inum_{inum}*')
+    affine_all_reg_logs = glob.glob(f'{data_base_dir}/{benchmark}/*/dist_affine_all_reg*beta_{beta}*inum_{inum}*')
+
+    hamming_logs = filter(lambda s: '/5/' not in s, hamming_logs)
+    affine_logs = filter(lambda s: '/5/' not in s, affine_logs)
+    affine_all_reg_logs = filter(lambda s: '/5/' not in s, affine_all_reg_logs)
+    print(beta,inum)
+    print(get_num_candidates(hamming_logs))
+    print(get_num_candidates(affine_logs))
+    print(get_num_candidates(affine_all_reg_logs))
 
     # average number of updates
-    def get_search_csv(logs):
-        num_searches = get_num_searches(logs)
-        num_updates = get_num_updates_per_search(logs)
-        return ','.join(map(str, [np.mean(num_searches), np.std(num_searches), np.mean(num_updates), np.std(num_updates)]))
-    hamming_cells = get_search_csv(hamming_logs)
-    affine_cells = get_search_csv(affine_logs)
-    print(f'({beta}; {inum}),{hamming_cells},{affine_cells}')
+    # def get_search_csv(logs):
+    #     num_searches = get_num_searches(logs)
+    #     num_updates = get_num_updates_per_search(logs)
+    #     return ','.join(map(str, [np.mean(num_searches), np.std(num_searches), np.mean(num_updates), np.std(num_updates)]))
+    # hamming_cells = get_search_csv(hamming_logs)
+    # affine_cells = get_search_csv(affine_logs)
+    # print(f'({beta}; {inum}),{hamming_cells},{affine_cells}')
 
     # print(get_num_searches(hamming_logs))
     # print(get_num_updates_per_search(hamming_logs))
