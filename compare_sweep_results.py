@@ -2,7 +2,7 @@ import itertools
 import operator
 import os
 
-from log_parse import *
+from util import *
 
 benchmark = '../stoke/embedder_eval/param_sweep/results/binary_affine'
 
