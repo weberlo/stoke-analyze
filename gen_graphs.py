@@ -72,10 +72,11 @@ def gen_graph(data, dist, beta, inum):
 
     fig.savefig(outname, dpi=250)
 
-# data_base_dir = '../stoke/embedder_eval/param_sweep/results'
 # data_base_dir = 'archive/tc_restrict_num/2-3-21'
 # data_base_dir = 'archive/tc_restrict_content/2-8-21'
-data_base_dir = 'archive/tc_unused_reg/2-15-21'
+# data_base_dir = 'archive/tc_unused_reg/2-15-21'
+# data_base_dir = 'archive/tc_unused_reg_no_dim_scale/2-21-21'
+data_base_dir = 'archive/tc_unused_reg_no_dim_scale/3-2-21'
 benchmark = 'binary_affine'
 
 # {
@@ -95,7 +96,7 @@ def get_cell_data(data_base_dir, benchmark, dist, beta, inum):
 for (beta, inum) in itertools.product(PARAMS['beta'], PARAMS['inum']):
     # hamming_data = get_cell_data(data_base_dir, benchmark, 'hamming', beta, inum)
     # gen_graph(hamming_data, 'hamming', beta, inum)
-    # affine_data = get_cell_data(data_base_dir, benchmark, 'affine', beta, inum)
-    # gen_graph(affine_data, 'affine', beta, inum)
+    affine_data = get_cell_data(data_base_dir, benchmark, 'affine', beta, inum)
+    gen_graph(affine_data, 'affine', beta, inum)
     affine_all_reg_data = get_cell_data(data_base_dir, benchmark, 'affine_all_reg', beta, inum)
     gen_graph(affine_all_reg_data, 'affine_all_reg', beta, inum)
