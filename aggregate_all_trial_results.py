@@ -7,7 +7,7 @@ import numpy as np
 
 from util import *
 
-data_base_dir = 'archive/tc_unused_reg_scale_before_cast/3-7-21'
+data_base_dir = 'archive/tc_unused_reg_scale_before_cast/3-11-21'
 # data_base_dir = '../stoke/embedder_eval/param_sweep/results'
 benchmark = 'binary_affine'
 
@@ -15,7 +15,7 @@ PARAMS = get_params(data_base_dir, benchmark)
 
 # print('(beta; inum),Avg Hamming Search Time (s),Hamming Std Dev,Avg Affine Search Time (s),Affine Std Dev')
 # print('(beta; inum),Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev,Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev')
-for (beta, inum) in itertools.product(PARAMS['beta'], PARAMS['inum']):
+for (beta, inum) in itertools.product(sorted(PARAMS['beta']), sorted(PARAMS['inum'])):
     # hamming_logs = glob.glob(f'{data_base_dir}/{benchmark}/*/dist_hamming*beta_{beta}*inum_{inum}*')
     affine_logs = get_logs(data_base_dir, benchmark, 'affine', beta, inum)  # glob.glob(f'{data_base_dir}/{benchmark}/*/dist_affine_gsm*beta_{beta}*inum_{inum}*')
     affine_all_reg_logs = get_logs(data_base_dir, benchmark, 'affine_all_reg', beta, inum)
@@ -48,9 +48,10 @@ for (beta, inum) in itertools.product(PARAMS['beta'], PARAMS['inum']):
         cands = get_num_candidates(logs)
         return ','.join(map(str, [np.mean(times), np.std(times), np.mean(cands), np.std(cands)]))
     # hamming_cells = get_perf_csv(hamming_logs)
-    # affine_cells = get_perf_csv(affine_logs)
+    affine_cells = get_perf_csv(affine_logs)
     affine_all_reg_cells = get_perf_csv(affine_all_reg_logs)
     # print(f'({beta}; {inum}),{hamming_cells},{affine_cells},{affine_all_reg_cells}')
-    # print(f'({beta}; {inum}),{affine_cells},{affine_all_reg_cells}')
+    print(f'({beta}; {inum}),{affine_cells},{affine_all_reg_cells}')
     # print(f'({beta}; {inum}),{affine_cells}')
-    print(f'({beta}; {inum}),{affine_all_reg_cells}')
+    # print(f'({beta}; {inum}),{affine_all_reg_cells}')
+    # print('---------------------------------------------------')
