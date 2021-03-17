@@ -1,10 +1,13 @@
 import glob
 import operator
 import re
+import os
 
 import numpy as np
 
-def _get_search_data_single(lines):
+def _get_search_data_single(fname):
+    with open(fname) as f:
+        lines = f.readlines()
     searches = []
     curr_search = []
     total_candidates = None
@@ -42,7 +45,10 @@ def _get_search_data_single(lines):
     if not total_candidates:
         total_candidates = 0
     if not total_search_time:
-        total_search_time = 0.0
+        # NOTE assuming we will aggregate search times by `min` and we'll only
+        # ever have it undefined in a log if one of the threads finished before
+        # all of the others printed any timing information
+        total_search_time = float('+inf')
     if curr_search:
         searches.append(curr_search)
     return {
@@ -54,25 +60,22 @@ def _get_search_data_single(lines):
 
 
 def get_search_data(filename):
-    with open(filename, 'r') as f:
-        lines = f.readlines()
-
-    if any(map(lambda l: l.startswith('[Thread '), lines)):
-        thread_to_lines = {}
-        for line in lines:
-            if (match := re.match('\[Thread ([0-9]+)\] ', line)) and not re.match('.+\[Thread [0-9]+\] ', line):
-                idx = int(match[1])
-                thread_to_lines.setdefault(idx, []).append(line.split('] ')[1])
-        return {i: _get_search_data_single(thread_lines) for (i, thread_lines) in thread_to_lines.items()}
+    if os.path.isdir(filename):
+        log_list = os.listdir(filename)
+        res = [None for i in range(len(log_list))]
+        for fname in log_list:
+            thread_no = int(re.match('thread_([0-9]+)\.log', fname)[1])
+            res[thread_no - 1] = _get_search_data_single(os.path.join(filename, fname))
+        return res
     else:
-        return _get_search_data_single(lines)
+        return _get_search_data_single(filename)
 
 
 def get_params(data_base_dir, benchmark):
     beta = set()
     inum = set()
     dist = set()
-    for fname in (set(glob.glob(f'{data_base_dir}/{benchmark}/0/*')) | set(glob.glob(f'{data_base_dir}/{benchmark}/1/*'))):
+    for fname in set(glob.glob(f'{data_base_dir}/{benchmark}/1/*')):
         beta.add(fname.split('beta_')[1].split('_')[0])
         inum.add(fname.split('inum_')[1].split('_')[0].split('.')[0])
         dist.add(fname.split('dist_')[1].split('_gsm')[0])
@@ -94,9 +97,7 @@ def aggregate_on_key(log_list, key, reduction_fn=None):
         if reduction_fn is None:
             res.append(data[key])
         else:
-            # print(f'NOTE: using reduction function `{reduction_fn}` on multithreaded data')
-            # print(key, ':', list(map(lambda d: d[key], data.values())))
-            res.append(reduction_fn(map(lambda d: d[key], data.values())))
+            res.append(reduction_fn(map(lambda d: d[key], data)))
     return res
 
 
