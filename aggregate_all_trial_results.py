@@ -7,10 +7,10 @@ import numpy as np
 
 from util import *
 
-data_base_dir = 'archive/inf_sig_undef_cost/3-25-21/run2'
-# data_base_dir = '../stoke/embedder_eval/param_sweep/results'
-# benchmark = 'binary_affine'
-benchmark = 'p07'
+# data_base_dir = '/home/jessemichel/results'
+data_base_dir = '../stoke/embedder_eval/param_sweep/results'
+benchmark = 'binary_affine'
+# benchmark = 'p07'
 
 PARAMS = get_params(data_base_dir, benchmark)
 
@@ -18,12 +18,12 @@ PARAMS = get_params(data_base_dir, benchmark)
 # print('(beta; inum),Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev,Avg Num Searches,Std Dev,Avg Updates Per Search,Std Dev')
 for (beta, inum) in itertools.product(sorted(PARAMS['beta']), sorted(PARAMS['inum'])):
     hamming_logs = get_logs(data_base_dir, benchmark, 'hamming', beta, inum)
-    hamming_inf_logs = get_logs(data_base_dir, benchmark, 'hamming_inf_sig_undef_cost', beta, inum)
+    # hamming_inf_logs = get_logs(data_base_dir, benchmark, 'hamming_inf_sig_undef_cost', beta, inum)
     # affine_logs = get_logs(data_base_dir, benchmark, 'affine', beta, inum)  # glob.glob(f'{data_base_dir}/{benchmark}/*/dist_affine_gsm*beta_{beta}*inum_{inum}*')
     # affine_all_reg_logs = get_logs(data_base_dir, benchmark, 'affine_all_reg', beta, inum)
 
     # print(beta,inum)
-    # print(get_num_candidates(hamming_logs))
+    print("num_candidates", get_num_candidates(hamming_logs))
     # print(get_num_candidates(affine_logs))
     # print(get_num_candidates(affine_all_reg_logs))
     # print('')
@@ -51,13 +51,11 @@ for (beta, inum) in itertools.product(sorted(PARAMS['beta']), sorted(PARAMS['inu
         return ','.join(map(str, [np.mean(times), np.std(times), np.mean(cands), np.std(cands)]))
 
     hamming_cells = get_perf_csv(hamming_logs)
-    hamming_inf_cells = get_perf_csv(hamming_inf_logs)
+    # print("Hamming cells", hamming_cells)
     # affine_cells = get_perf_csv(affine_logs)
     # affine_all_reg_cells = get_perf_csv(affine_all_reg_logs)
-
-    # print(f'({beta}; {inum}),{hamming_cells},{affine_cells},{affine_all_reg_cells}')
+    print(f'(Beta, inum), Hamming: ({beta}; {inum}),{hamming_cells}')
     # print(f'({beta}; {inum}),{affine_cells},{affine_all_reg_cells}')
     # print(f'({beta}; {inum}),{affine_cells}')
     # print(f'({beta}; {inum}),{affine_all_reg_cells}')
-    print(f'({beta}; {inum}),{hamming_cells},{hamming_inf_cells}')
     # print('---------------------------------------------------')

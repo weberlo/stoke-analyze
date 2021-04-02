@@ -60,16 +60,20 @@ def _get_search_data_single(fname):
 
 
 def get_search_data(filename):
+    TERMINATED_SUCCESSFULLY = 'Search terminated successfully with a verified rewrite!'
     if os.path.isdir(filename):
         log_list = os.listdir(filename)
 
         finished = []
         for logname in log_list:
             with open(os.path.join(filename, logname)) as f:
-                finished.append('Final update' in f.read())
+                finished.append(TERMINATED_SUCCESSFULLY in f.read())
         if not any(finished):
-            print(f'skipping `{filename}`. did not finish synthesis')
+            # print(f'skipping `{filename}`. did not finish synthesis')
             return None
+        else:
+            pass
+            # print(f'The file {filename} found a solution!')
 
         # res = [None for i in range(len(log_list))]
         res = []
@@ -81,8 +85,8 @@ def get_search_data(filename):
         return res
     else:
         with open(filename) as f:
-            if 'Final update' not in f.read():
-                print(f'skipping {filename}. did not finish synthesis')
+            if TERMINATED_SUCCESSFULLY not in f.read():
+                # print(f'skipping {filename}. did not finish synthesis')
                 return None
         return _get_search_data_single(filename)
 
