@@ -62,12 +62,28 @@ def _get_search_data_single(fname):
 def get_search_data(filename):
     if os.path.isdir(filename):
         log_list = os.listdir(filename)
-        res = [None for i in range(len(log_list))]
+
+        finished = []
+        for logname in log_list:
+            with open(os.path.join(filename, logname)) as f:
+                finished.append('Final update' in f.read())
+        if not any(finished):
+            print(f'skipping `{filename}`. did not finish synthesis')
+            return None
+
+        # res = [None for i in range(len(log_list))]
+        res = []
         for fname in log_list:
-            thread_no = int(re.match('thread_([0-9]+)\.log', fname)[1])
-            res[thread_no - 1] = _get_search_data_single(os.path.join(filename, fname))
+            # thread_no = int(re.match('thread_([0-9]+)\.log', fname)[1])
+            # if (thread_no - 1) not in range(len(res)):
+            #     import pdb; pdb.set_trace()
+            res.append(_get_search_data_single(os.path.join(filename, fname)))
         return res
     else:
+        with open(filename) as f:
+            if 'Final update' not in f.read():
+                print(f'skipping {filename}. did not finish synthesis')
+                return None
         return _get_search_data_single(filename)
 
 
@@ -94,6 +110,8 @@ def aggregate_on_key(log_list, key, reduction_fn=None):
     res = []
     for log in log_list:
         data = get_search_data(log)
+        if data is None:
+            continue
         if reduction_fn is None:
             res.append(data[key])
         else:
