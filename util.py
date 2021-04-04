@@ -16,11 +16,13 @@ def _get_search_data_single(fname):
     # we sometimes process in-progress search logs with this function
     search_finished = False
     for i, line in enumerate(lines):
-        if match := re.match('Doobs Time Since Search Start: ([0-9.]+)ms', line):
+        if re.match('Doobs Time Since Search Start: ([0-9.]+)ms', line):
+            match = re.match('Doobs Time Since Search Start: ([0-9.]+)ms', line)
             update_time = float(match[1]) / 1000.0
             for j in range(i, min(i + 5, len(lines))):
                 # if match := re.match('Lowest Cost Discovered \(([0-9]+)\)     Lowest Known Correct Cost \([0-9]+\)', line):
-                if match := re.match('.*Lowest Cost Discovered \(([0-9]+)\).*', line):
+                if re.match('.*Lowest Cost Discovered \(([0-9]+)\).*', line):
+                    match = re.match('.*Lowest Cost Discovered \(([0-9]+)\).*', line)
                     import pdb; pdb.set_trace()
                     update_cost = int(lines[i+2].split('(')[1].split(')')[0])
                     if curr_search and update_cost > curr_search[-1][1]:
@@ -29,9 +31,17 @@ def _get_search_data_single(fname):
                         curr_search = []
                     curr_search.append((update_time, update_cost))
                     break
-        elif (match := re.match('Iterations: +([0-9]+)', line)) or (match := re.match('Total search iterations: +([0-9]+)', line)):
+        elif re.match('Iterations: +([0-9]+)', line):
+            match = re.match('Iterations: +([0-9]+)', line)
             total_candidates = int(match[1])
-        elif (match := re.match('Total search time: +([0-9]+)s', line)) or (match := re.match('Elapsed Time: +([0-9.]+)s', line)):
+        elif re.match('Total search iterations: +([0-9]+)', line):
+            match = re.match('Total search iterations: +([0-9]+)', line)
+            total_candidates = int(match[1])
+        elif re.match('Total search time: +([0-9]+)s', line):
+            match = re.match('Total search time: +([0-9]+)s', line)
+            total_search_time = float(match[1])
+        elif re.match('Elapsed Time: +([0-9.]+)s', line):
+            match = re.match('Elapsed Time: +([0-9.]+)s', line)
             total_search_time = float(match[1])
         elif 'Search terminated successfully with a verified rewrite!' in line:
             success = True
@@ -69,7 +79,7 @@ def get_search_data(filename):
             with open(os.path.join(filename, logname)) as f:
                 finished.append(TERMINATED_SUCCESSFULLY in f.read())
         if not any(finished):
-            # print(f'skipping `{filename}`. did not finish synthesis')
+            print(f'skipping `{filename}`. did not finish synthesis')
             return None
         else:
             pass
